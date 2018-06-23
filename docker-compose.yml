@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  jenkins-master:
+    container_name: jenkins-master
+    image: martinq/jenkins-master-swarm
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - /srv/jenkins-master-swarm:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  jenkins-slave:
+    container_name: jenkins-slave
+    image: martinq/jenkins-slave-swarm
+    environment:
+      - LABELS=docker
+      - EXECUTORS=3
+      - FSROOT=/var/jenkins_home
+    volumes:
+      - /srv/jenkins-slave-swarm:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: "-master http://jenkins-master:8080/ -name docker-slave -master http://jenkins-master:8080/ -username admin -password admin"
