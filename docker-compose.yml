@@ -8,7 +8,13 @@ services:
       - 8080:8080
       - 50000:50000
     volumes:
-      - /srv/jenkins-master-swarm:/var/jenkins_home
+      - /srv/jenkins-master:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  docker-proxy:
+    container_name: docker-proxy
+    image: martinq/docker-proxy
+    volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
   jenkins-slave:
@@ -19,6 +25,6 @@ services:
       - EXECUTORS=3
       - FSROOT=/var/jenkins_home
     volumes:
-      - /srv/jenkins-slave-swarm:/var/jenkins_home
+      - /srv/jenkins-slave:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
     command: "-master http://jenkins-master:8080/ -name docker-slave -master http://jenkins-master:8080/ -username admin -password admin"
