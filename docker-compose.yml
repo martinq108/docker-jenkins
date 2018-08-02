@@ -30,4 +30,4 @@ services:
     volumes:
       - /srv/jenkins-slave:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
-    command: "-master http://jenkins-master:8080/ -name docker-slave -master http://jenkins-master:8080/ -username admin -password admin"
+    command: "-master http://jenkins-master:8080/ -name docker-slave -username admin -password admin"
