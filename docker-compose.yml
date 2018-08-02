@@ -3,7 +3,8 @@ version: '3'
 services:
   jenkins-master:
     container_name: jenkins-master
-    image: martinq/jenkins-master-swarm
+    build: ./jenkins-master-swarm
+    #image: martinq/jenkins-master-swarm
     ports:
       - 8080:8080
       - 50000:50000
@@ -13,13 +14,15 @@ services:
 
   docker-proxy:
     container_name: docker-proxy
-    image: martinq/docker-proxy
+    build: ./docker-proxy
+    #image: martinq/docker-proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
   jenkins-slave:
     container_name: jenkins-slave
-    image: martinq/jenkins-slave-swarm
+    build: ./jenkins-slave-swarm
+    #image: martinq/jenkins-swarm-client
     environment:
       - LABELS=docker
       - EXECUTORS=3
